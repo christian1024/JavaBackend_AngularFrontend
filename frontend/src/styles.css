@@ -1,0 +1,9 @@
+/*@import "tailwindcss";
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+@import "tailwindcss/index";
+@import "tailwindcss/theme";*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
