@@ -1,37 +1,49 @@
 
-// auth.service.ts
-import { Injectable } from '@angular/core';
+// src/app/auth/auth.service.ts
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private apiUrl = 'http://localhost:8080/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
-
-  login(username: string, password: string) {
-    return this.http.post<{ token: string }>('http://localhost:8080/auth/login', { username, password })
-      .pipe(tap(res => localStorage.setItem('token', res.token)));
+  login(username: string, password: string): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, { username, password })
+      .pipe(
+        tap(res => {
+          if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem('token', res.token);
+          }
+        })
+      );
   }
 
-  saveToken(token: string) {
-    localStorage.setItem('token', token);
+  saveToken(token: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('token', token);
+    }
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('token');
+    }
+    return null;
   }
 
   isLoggedIn(): boolean {
-    const token = this.getToken();
-    // Opcional: validar expiración si agregas "exp" y la lees en el cliente
-    return !!token;
+    return !!this.getToken();
   }
 
-  logout() {
-    localStorage.removeItem('token');
+  logout(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+    }
   }
 }

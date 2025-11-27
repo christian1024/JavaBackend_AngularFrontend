@@ -1,0 +1,96 @@
+
+<div
+  class="flex flex-col h-screen bg-gray-900 text-white transition-all duration-300"
+  [class.w-64]="sidebarOpen"
+  [class.w-20]="!sidebarOpen"
+>
+  <!-- Header / Logo -->
+  <div class="flex items-center justify-center h-16 border-b border-gray-800">
+    <span class="text-xl font-bold" *ngIf="sidebarOpen">Logo</span>
+    <ng-icon name="heroHome" class="w-6 h-6" *ngIf="!sidebarOpen"></ng-icon>
+  </div>
+
+  <!-- Menu principal -->
+  <nav class="flex-1 overflow-y-auto">
+    <ul class="mt-3 space-y-1">
+      <!-- Item raíz (con o sin hijos) -->
+      <li *ngFor="let item of menu">
+        <!-- Botón grupo (tiene hijos) -->
+        <button
+          *ngIf="item.children; else leaf"
+          type="button"
+          class="group flex items-center w-full px-4 py-2 text-left hover:bg-gray-800 transition-colors"
+          (click)="toggleGroup(item)"
+        >
+          <!-- Icono del grupo -->
+          <ng-icon
+            *ngIf="item.icon"
+            [name]="item.icon"
+            class="w-5 h-5 shrink-0 text-gray-300 group-hover:text-white"
+          ></ng-icon>
+
+          <!-- Texto -->
+          <span class="ml-3 truncate" *ngIf="sidebarOpen">{{ item.label }}</span>
+
+          <!-- Chevron -->
+          <ng-icon
+            name="heroChevronDown"
+            class="ml-auto w-4 h-4 text-gray-400 transition-transform duration-300"
+            [class.rotate-180]="item.open"
+            *ngIf="sidebarOpen"
+          ></ng-icon>
+        </button>
+
+        <!-- Submenú -->
+        <ul
+          *ngIf="item.children"
+          class="overflow-hidden transition-all duration-300 ease-in-out border-l border-gray-800 ml-4 pl-3"
+          [class.max-h-0]="!item.open || !sidebarOpen"
+          [class.max-h-96]="item.open && sidebarOpen"
+        >
+          <li *ngFor="let child of item.children">
+            <a
+              [routerLink]="child.path"
+              class="flex items-center px-2 py-2 rounded-md my-0.5
+                     hover:bg-gray-800 hover:text-white transition-colors"
+              [class.bg-gray-800]="isActive(child.path)"
+              [class.text-white]="isActive(child.path)"
+            >
+              <!-- bullet / ícono hijo -->
+              <span class="w-1.5 h-1.5 rounded-full bg-gray-500 mr-3"></span>
+              <span class="truncate" *ngIf="sidebarOpen">{{ child.label }}</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Item hoja (sin hijos) -->
+        <ng-template #leaf>
+          <a
+            [routerLink]="item.path"
+            class="flex items-center px-4 py-2 hover:bg-gray-800 transition-colors rounded-md"
+            [class.bg-gray-800]="isActive(item.path)"
+            [class.text-white]="isActive(item.path)"
+          >
+            <ng-icon
+              *ngIf="item.icon"
+              [name]="item.icon"
+              class="w-5 h-5 shrink-0 text-gray-300"
+            ></ng-icon>
+            <span class="ml-3 truncate" *ngIf="sidebarOpen">{{ item.label }}</span>
+          </a>
+        </ng-template>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Footer -->
+  <div class="p-4 border-t border-gray-800">
+    <button
+      class="flex items-center w-full px-4 py-2 hover:bg-gray-800 transition-colors"
+      (click)="sidebarToggle.emit()"
+    >
+      <ng-icon name="heroCog6Tooth" class="w-5 h-5"></ng-icon>
+      <span class="ml-3" *ngIf="sidebarOpen">Cerrar</span>
+    </button>
+  </div>
+</div>
