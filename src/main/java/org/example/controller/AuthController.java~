@@ -30,7 +30,6 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
-
     }
 
     @PostMapping("/login")
