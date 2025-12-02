@@ -1,17 +1,3 @@
-/*
-package org.example;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class DemoApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
-    }
-
-}*/
-
 package org.example;
 
 import org.springframework.boot.SpringApplication;
@@ -32,7 +18,6 @@ public class DemoApplication {
     CommandLineRunner initPasswords() {
         return args -> {
             var encoder = new BCryptPasswordEncoder();
-
             System.out.println("Hash para 1234  = " + encoder.encode("1234"));
             System.out.println("Hash para admin = " + encoder.encode("admin"));
             System.out.println("Hash para prueba= " + encoder.encode("prueba"));

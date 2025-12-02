@@ -20,7 +20,6 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(withInterceptors([jwtInterceptor])),
     provideRouter(appRoutes),
-
     // ✅ Añade los íconos aquí
     provideIcons({
       heroHome,

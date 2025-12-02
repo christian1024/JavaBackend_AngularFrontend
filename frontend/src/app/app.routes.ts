@@ -16,7 +16,7 @@ export const appRoutes: Routes = [
       },
       {
         path: 'personal/personal',
-        loadComponent: () => import('./personal/personal').then(m => m.PersonalComponent)
+        loadComponent: () => import('./personal/personal').then(m => m.default)
       }
     ]
   },

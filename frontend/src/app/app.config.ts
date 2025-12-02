@@ -4,6 +4,9 @@ import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+
+
 import { provideIcons } from '@ng-icons/core';
 import {
   heroHome,
@@ -13,11 +16,13 @@ import {
 
 } from '@ng-icons/heroicons/outline';
 
+
+import { jwtInterceptor } from './auth/jwt.interceptor';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes),
-
-    // 🔑 Registro global de íconos
+    provideHttpClient(withInterceptors([jwtInterceptor])),
     provideIcons({
       heroHome,
       heroShoppingCart,
@@ -26,3 +31,4 @@ export const appConfig: ApplicationConfig = {
     }),
   ],
 };
+

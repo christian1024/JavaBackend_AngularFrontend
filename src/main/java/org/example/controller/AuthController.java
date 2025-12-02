@@ -12,9 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
-
 
 @RestController
 @RequestMapping("/auth")
@@ -30,7 +28,6 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
-
     }
 
     @PostMapping("/login")
@@ -46,7 +43,10 @@ public class AuthController {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         String token = jwtUtil.generateToken(userDetails);
+        System.out.println("TOKEN GENERADO: " + token);
+        System.out.println("SECRET KEY USADA: " + jwtUtil.getSecretKey());
         return ResponseEntity.ok(new AuthResponse(token));
     }
+
 
 }

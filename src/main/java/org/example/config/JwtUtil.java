@@ -48,4 +48,9 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+    public String getSecretKey() {
+        return SECRET;
+    }
+
 }
