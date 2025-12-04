@@ -14,6 +14,8 @@ import {
   heroCog6Tooth,
   heroUsers,
   heroChevronDown,
+  heroPencilSquare,
+  heroTrash,
 } from '@ng-icons/heroicons/outline';
 
 bootstrapApplication(AppComponent, {
@@ -28,6 +30,8 @@ bootstrapApplication(AppComponent, {
       heroCog6Tooth,
       heroUsers,
       heroChevronDown,
+      heroPencilSquare,
+      heroTrash
     }),
   ]
 }).catch(err => console.error(err));

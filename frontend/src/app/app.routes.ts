@@ -15,8 +15,12 @@ export const appRoutes: Routes = [
         loadComponent: () => import('./dashboard/dashboard.component').then(m => m.DashboardComponent)
       },
       {
-        path: 'personal/personal',
-        loadComponent: () => import('./personal/personal').then(m => m.default)
+        path: 'personal',
+        loadComponent: () => import('./personal/PersonalListCreate/personal').then(m => m.default)
+      },
+      {
+        path: 'personal/editar/:id',
+        loadComponent: () => import('./personal/PersonalListCreate/personal').then(m => m.default)
       }
     ]
   },

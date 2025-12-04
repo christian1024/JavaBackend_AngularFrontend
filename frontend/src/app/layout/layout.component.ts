@@ -29,7 +29,7 @@ export class LayoutComponent {
     { label: 'Dashboard', path: '/dashboard', icon: 'heroHome' },
     {
       label: 'Personal', icon: 'heroUsers', children: [
-        { label: 'Empleados',path: '/personal/personal'},
+        { label: 'Empleados',path: '/personal'},
 
       ]
     },

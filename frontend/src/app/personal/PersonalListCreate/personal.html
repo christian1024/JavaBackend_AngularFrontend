@@ -36,8 +36,26 @@
             <td class="px-4 py-2">{{ p.nombre }} {{ p.apellido }}</td>
             <td class="px-4 py-2">{{ p.fechaIngreso }}</td>
             <td class="px-4 py-2">
-              <button class="text-blue-600 hover:underline">Editar</button>
+              <div class="flex items-center gap-4">
+                <!-- Botón Editar -->
+                <button
+                  class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800"
+                  title="Editar">
+                  <!--[routerLink]="['personal/editar/', p.id]">-->
+                  <ng-icon name="heroPencilSquare" class="w-5 h-5"></ng-icon>
+                  <span>Editar</span>
+                </button>
+
+                <!-- Botón Eliminar -->
+                <button
+                  class="inline-flex items-center gap-1 text-red-600 hover:text-red-800"
+                  title="Eliminar" ><!--(click)="eliminar(p.id)"-->
+                  <ng-icon name="heroTrash" class="w-5 h-5"></ng-icon>
+                  <span>Eliminar</span>
+                </button>
+              </div>
             </td>
+
           </tr>
           </tbody>
         </table>

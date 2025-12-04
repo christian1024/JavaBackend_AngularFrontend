@@ -1,13 +1,14 @@
 
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { PersonalService, Personal } from '../Services/personal.service';
-import { TipoDocuService } from '../Services/TipoDocu.service';
-import { CargoService } from '../Services/Cargo.Service';
+import { PersonalService, Personal } from '../../Services/personal.service';
+import { TipoDocuService } from '../../Services/TipoDocu.service';
+import { CargoService } from '../../Services/Cargo.Service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {NgIcon} from '@ng-icons/core';
 
 interface TipoDocumento {
   id: number;
@@ -22,7 +23,7 @@ interface Cargo {
 @Component({
   selector: 'app-personal',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, NgIcon],
   templateUrl: './personal.html',
   styleUrls: ['./personal.css']
 })
@@ -48,7 +49,8 @@ class PersonalComponent implements OnInit {
     private personalService: PersonalService,
     private tipoDocuService: TipoDocuService,
     private CargoService: CargoService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
   trackById(index: number, item: TipoDocumento): number {
     return item.id;
@@ -59,18 +61,18 @@ class PersonalComponent implements OnInit {
     // ✅ Recargar datos si el usuario vuelve a la ruta
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
-        if (this.router.url.includes('personal/personal')) {
+        if (this.router.url.includes('personal')) {
           this.cargarDatos();
         }
       });
   }
-
   cargarDatos() {
     this.loading = true;
     this.personalService.getAll().subscribe({
       next: (data) => {
-        this.personalList = data;
+        this.personalList = [...data];
         this.loading = false;
+        this.cdr.detectChanges()
       },
       error: (err) => {
         console.error('Error al cargar personal', err);
@@ -88,7 +90,6 @@ class PersonalComponent implements OnInit {
       error: (err) => console.error('Error al cargar tipos de documento', err)
     });
   }
-
   openModal() {
     this.showModal = true;
   }
@@ -96,12 +97,6 @@ class PersonalComponent implements OnInit {
   closeModal() {
     this.showModal = false;
   }
-
-
-
-
-
-
   guardar() {
     const payload = {
       nombre: this.form.nombre,
@@ -114,12 +109,10 @@ class PersonalComponent implements OnInit {
       fechaIngreso: this.form.fechaIngreso,
       estado: 'ACTIVO'
     };
-
     this.personalService.create(payload).subscribe({
       next: (response) => {
         console.log('Empleado guardado:', response);
         this.closeModal();
-
         // ✅ Limpiar formulario
         this.form = {
           nombre: '',
@@ -131,7 +124,6 @@ class PersonalComponent implements OnInit {
           telefono: '',
           fechaIngreso: ''
         };
-
         // ✅ Recargar lista y forzar detección de cambios
         this.cargarDatos();
       },
@@ -141,9 +133,8 @@ class PersonalComponent implements OnInit {
       }
     });
   }
-
-
-
+  /*EliminarEmpleado(id:any){
+      console.log(id);
+  }*/
 }
-
 export default PersonalComponent
