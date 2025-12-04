@@ -21,14 +21,17 @@ public class Personal {
     @Column(nullable = false, length = 100)
     private String apellido;
 
-    @Column(name = "tipo_documento_id", nullable = false)
-    private Integer tipoDocumentoId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_documento_id", nullable = false)
+    private TipoDocumentoModel tipoDocumento;
 
     @Column(name = "numero_documento", nullable = false, unique = true, length = 50)
     private String numeroDocumento;
 
-    @Column(name = "cargo_id", nullable = false)
-    private Integer cargoId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cargo_id", nullable = false)
+    private Cargo cargo;
+
 
     @Column(nullable = false, unique = true, length = 150)
     private String email;
@@ -43,7 +46,7 @@ public class Personal {
     @Column(nullable = false, length = 10)
     private String estado;
 
-    public Personal() {}
+   /* public Personal() {}
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -73,5 +76,5 @@ public class Personal {
     public void setFechaIngreso(LocalDate fechaIngreso) { this.fechaIngreso = fechaIngreso; }
 
     public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public void setEstado(String estado) { this.estado = estado; }*/
 }

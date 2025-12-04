@@ -25,36 +25,46 @@
         <table class="min-w-full border border-gray-300 rounded-lg">
           <thead class="bg-gray-200">
           <tr>
+            <th class="px-4 py-2 text-left">Documento</th>
             <th class="px-4 py-2 text-left">Nombre</th>
-            <th class="px-4 py-2 text-left">Fecha Ingreso</th>
+            <th class="px-4 py-2 text-left">Telefono</th>
+            <th class="px-4 py-2 text-left">Cargo</th>
             <th class="px-4 py-2 text-left">Accion</th>
           </tr>
           </thead>
           <tbody>
 
           <tr *ngFor="let p of personalList" class="border-t hover:bg-gray-50">
+            <td class="px-4 py-2">{{ p.tipoDocumentoNombre }}-{{ p.numeroDocumento }}</td>
             <td class="px-4 py-2">{{ p.nombre }} {{ p.apellido }}</td>
-            <td class="px-4 py-2">{{ p.fechaIngreso }}</td>
+            <td class="px-4 py-2">{{ p.telefono }}</td>
+            <td class="px-4 py-2">{{ p.cargoNombre }}</td>
+
             <td class="px-4 py-2">
-              <div class="flex items-center gap-4">
+              <!-- Si está ACTIVO -->
+              <div *ngIf="p.estado === 'ACTIVO'; else inactivo" class="flex items-center gap-4">
                 <!-- Botón Editar -->
-                <button
-                  class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800"
-                  title="Editar">
-                  <!--[routerLink]="['personal/editar/', p.id]">-->
+                <button class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800" title="Editar">
                   <ng-icon name="heroPencilSquare" class="w-5 h-5"></ng-icon>
                   <span>Editar</span>
                 </button>
 
                 <!-- Botón Eliminar -->
-                <button
-                  class="inline-flex items-center gap-1 text-red-600 hover:text-red-800"
-                  title="Eliminar" ><!--(click)="eliminar(p.id)"-->
+                <button class="inline-flex items-center gap-1 text-red-600 hover:text-red-800" title="Eliminar">
                   <ng-icon name="heroTrash" class="w-5 h-5"></ng-icon>
                   <span>Eliminar</span>
                 </button>
               </div>
+
+              <!-- Si NO está ACTIVO -->
+              <ng-template #inactivo>
+                <button class="inline-flex items-center gap-1 text-green-600 hover:text-green-800" title="Activar">
+                  <ng-icon name="heroCheckCircle" class="w-5 h-5"></ng-icon>
+                  <span>Activar</span>
+                </button>
+              </ng-template>
             </td>
+
 
           </tr>
           </tbody>
